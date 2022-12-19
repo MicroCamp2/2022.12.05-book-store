@@ -9,6 +9,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.web.WebAppConfiguration;
+import pl.camp.micro.book.store.App;
 import pl.camp.micro.book.store.configuration.AppConfiguration;
 import pl.camp.micro.book.store.configuration.TestConfiguration;
 import pl.camp.micro.book.store.database.IBookDB;
@@ -21,7 +22,7 @@ import javax.annotation.Resource;
 import java.util.Optional;
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = { TestConfiguration.class })
+@ContextConfiguration(classes = { App.class, TestConfiguration.class })
 @WebAppConfiguration
 public class AuthenticationServiceTest {
 

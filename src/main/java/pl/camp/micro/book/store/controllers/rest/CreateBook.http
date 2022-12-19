@@ -1,0 +1,31 @@
+POST http://localhost:8087/api/books
+Content-Type: application/json
+
+{
+  "id": null,
+  "title": "Tytul 8",
+  "author": "Autor KRZYSZTOF",
+  "price": 51.34,
+  "quantity": 100
+}
+
+### Send POST with update book
+POST http://localhost:8087/api/books/2
+Content-Type: application/json
+
+{"id":2,"title":"Tytul Test","author":"Autor KRZYSZTOF Szymeczek","price":0.5,"quantity":1,"version":0}
+
+
+### Send POST with update book 2
+POST http://localhost:8087/api/books/2
+Content-Type: application/json
+
+{"id":2,"title":"Tytul Bootcamp","author":"Autor KRZYSZTOF Szymeczek","price":0.5,"quantity":1,"version":3}
+
+
+
+### Send POST create transaction
+POST http://localhost:8087/api/transactions
+Content-Type: application/json
+
+{"id":null,"transactionDate":"2022-12-19T15:27:08.991+00:00","discount":1.0,"price":1.5,"bookId":2,"comment":"Comment"}

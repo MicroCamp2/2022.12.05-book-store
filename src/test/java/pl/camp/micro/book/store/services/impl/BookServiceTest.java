@@ -1,50 +1,50 @@
 package pl.camp.micro.book.store.services.impl;
 
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
+import org.mapstruct.factory.Mappers;
+import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-import pl.camp.micro.book.store.configuration.TestConfiguration;
-import pl.camp.micro.book.store.database.IBookDB;
-import pl.camp.micro.book.store.database.IUserDB;
+import org.mockito.MockitoAnnotations;
+import pl.camp.micro.book.store.controllers.rest.dto.BookDto;
+import pl.camp.micro.book.store.database.repositories.IBookRepository;
 import pl.camp.micro.book.store.model.Book;
 import pl.camp.micro.book.store.services.IBookService;
+import pl.camp.micro.book.store.services.mappers.BookMapper;
+import pl.camp.micro.book.store.services.mappers.OldBookMapper;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = { TestConfiguration.class })
 public class BookServiceTest {
 
-    @Autowired
     IBookService bookService;
 
-    @MockBean
-    IUserDB userDB;
+    @Mock
+    IBookRepository bookDB;
 
-    @MockBean
-    IBookDB bookDB;
+    @BeforeEach
+    void setUp() {
+        MockitoAnnotations.openMocks(this);
+        bookService = new BookService(Mappers.getMapper(BookMapper.class), bookDB );
+    }
 
     @Test
     public void getAllBooksTest() {
         Mockito
-                .when(bookDB.getBooks())
+                .when(bookDB.findAll())
                 .thenReturn(generateTestBooks());
         int expectedListSize = 3;
 
-        List<Book> result = this.bookService.getBooks();
+        List<BookDto> result = this.bookService.getBooks();
 
         Assertions.assertEquals(expectedListSize, result.size());
         for(int i = 0; i < result.size(); i++) {
             Assertions.assertEquals(i+1, result.get(i).getId());
         }
 
-        Mockito.verify(this.bookDB, Mockito.times(1)).getBooks();
+        Mockito.verify(this.bookDB, Mockito.times(1)).findAll();
     }
 
     private List<Book> generateTestBooks() {

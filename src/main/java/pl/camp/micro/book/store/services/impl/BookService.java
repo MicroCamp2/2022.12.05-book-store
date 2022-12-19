@@ -1,21 +1,47 @@
 package pl.camp.micro.book.store.services.impl;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
-import pl.camp.micro.book.store.database.IBookDB;
+import pl.camp.micro.book.store.controllers.rest.dto.BookDto;
+import pl.camp.micro.book.store.database.repositories.IBookRepository;
 import pl.camp.micro.book.store.model.Book;
 import pl.camp.micro.book.store.services.IBookService;
+import pl.camp.micro.book.store.services.mappers.BookMapper;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class BookService implements IBookService {
-    @Autowired
-    IBookDB bookDB;
+    public final BookMapper bookMapper;
+    private final IBookRepository bookRepository;
+
+    public BookService(BookMapper bookMapper, IBookRepository bookRepository) {
+        this.bookMapper = bookMapper;
+        this.bookRepository = bookRepository;
+    }
 
     @Override
-    public List<Book> getBooks() {
-        return this.bookDB.getBooks();
+    public List<BookDto> getBooks() {
+        return this.bookRepository.findAll().stream()
+                .map(bookMapper::toDto).collect(Collectors.toList());
+    }
+
+    @Override
+    public BookDto create(BookDto book) {
+        Book savedBook = bookRepository.save(bookMapper.toEntity(book));
+        return bookMapper.toDto(savedBook);
+    }
+
+    @Override
+    public BookDto update(BookDto book) {
+        Book savedBook =  bookRepository.save(bookMapper.toEntity(book));
+        return bookMapper.toDto(savedBook);
+    }
+
+    @Override
+    public Optional<BookDto> findById(Integer id) {
+        Optional<Book> book = bookRepository.findById(id);
+        return book.map(bookMapper::toDto);
     }
 }
