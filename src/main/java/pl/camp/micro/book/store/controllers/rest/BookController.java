@@ -8,6 +8,7 @@ import pl.camp.micro.book.store.controllers.rest.dto.BookDto;
 import pl.camp.micro.book.store.model.Book;
 import pl.camp.micro.book.store.services.IBookService;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -25,7 +26,7 @@ public class BookController {
     }
 
     @PostMapping
-    public ResponseEntity<BookDto> create(@RequestBody BookDto book) {
+    public ResponseEntity<BookDto> create(@Valid @RequestBody BookDto book) {
         return ResponseEntity.ok(iBookService.create(book));
     }
 

@@ -3,7 +3,7 @@ Content-Type: application/json
 
 {
   "id": null,
-  "title": "Tytul 8",
+  "title": "",
   "author": "Autor KRZYSZTOF",
   "price": 51.34,
   "quantity": 100

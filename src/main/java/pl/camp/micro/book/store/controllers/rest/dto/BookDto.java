@@ -1,10 +1,19 @@
 package pl.camp.micro.book.store.controllers.rest.dto;
 
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
 public class BookDto {
     private Integer id;
+    @NotEmpty
+    @NotNull
     private String title;
+    @NotEmpty
+    @NotNull
     private String author;
+    @Min(0)
     private double price;
     private int quantity;
 
