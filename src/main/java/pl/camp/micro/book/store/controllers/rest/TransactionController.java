@@ -1,9 +1,10 @@
 package pl.camp.micro.book.store.controllers.rest;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.camp.micro.book.store.controllers.rest.dto.TransactionDto;
-import pl.camp.micro.book.store.services.IBookService;
 import pl.camp.micro.book.store.services.impl.TransactionService;
 
 import java.util.List;
@@ -18,8 +19,12 @@ public class TransactionController {
     }
 
     @GetMapping()
-    public ResponseEntity<List<TransactionDto>> list() {
-        return ResponseEntity.ok(transactionService.getBooks());
+    public ResponseEntity<Page<TransactionDto>> list(
+            @RequestParam(required = false, name = "comment") String comment, Pageable pageable) {
+        if (comment != null) {
+            return ResponseEntity.ok(transactionService.findByComment(comment, pageable));
+        }
+        return ResponseEntity.ok(transactionService.findTransaction(pageable));
     }
 
     @PostMapping
