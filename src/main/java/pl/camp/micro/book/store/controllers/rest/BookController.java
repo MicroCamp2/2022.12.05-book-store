@@ -1,5 +1,7 @@
 package pl.camp.micro.book.store.controllers.rest;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.camp.micro.book.store.controllers.rest.dto.BookDto;
@@ -18,8 +20,8 @@ public class BookController {
     }
 
     @GetMapping()
-    public ResponseEntity<List<BookDto>> list() {
-        return ResponseEntity.ok(iBookService.getBooks());
+    public ResponseEntity<Page<BookDto>> list(Pageable pageable) {
+        return ResponseEntity.ok(iBookService.getBooks(pageable));
     }
 
     @PostMapping

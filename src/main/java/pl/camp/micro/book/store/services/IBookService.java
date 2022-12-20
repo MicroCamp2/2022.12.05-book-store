@@ -1,5 +1,7 @@
 package pl.camp.micro.book.store.services;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import pl.camp.micro.book.store.controllers.rest.dto.BookDto;
 import pl.camp.micro.book.store.model.Book;
 
@@ -14,4 +16,6 @@ public interface IBookService {
     BookDto update(BookDto book);
 
     Optional<BookDto> findById(Integer id);
+
+    Page<BookDto> getBooks(Pageable pageable);
 }

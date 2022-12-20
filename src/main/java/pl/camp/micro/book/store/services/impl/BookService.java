@@ -1,5 +1,7 @@
 package pl.camp.micro.book.store.services.impl;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import pl.camp.micro.book.store.controllers.rest.dto.BookDto;
 import pl.camp.micro.book.store.database.repositories.IBookRepository;
@@ -43,5 +45,11 @@ public class BookService implements IBookService {
     public Optional<BookDto> findById(Integer id) {
         Optional<Book> book = bookRepository.findById(id);
         return book.map(bookMapper::toDto);
+    }
+
+    @Override
+    public Page<BookDto> getBooks(Pageable pageable) {
+        return bookRepository.findAll(pageable)
+                .map(bookMapper::toDto);
     }
 }

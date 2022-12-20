@@ -1,0 +1,13 @@
+version: '3.8'
+services:
+  bookstore-mysql:
+    image: mysql:8.0.25
+    # volumes:
+    #   - ~/volumes/bookstore/mysql/:/var/lib/mysql/
+    environment:
+      - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+      - MYSQL_DATABASE=bookstore
+    ports:
+      - 127.0.0.1:3309:3306
+
+ #docker run   -p 3306:3306 -e   MYSQL_ALLOW_EMPTY_PASSWORD=yes -e  MYSQL_DATABASE=bookstore mysql:8.0.25
