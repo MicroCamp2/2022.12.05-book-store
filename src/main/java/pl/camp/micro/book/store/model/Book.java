@@ -25,7 +25,7 @@ public class Book {
     private double price;
     private int quantity;
 
-    @OneToMany(mappedBy = "book")
+    @OneToMany(mappedBy = "book", fetch = FetchType.EAGER)
     private Set<Transaction> transactions;
 
     @LastModifiedDate
@@ -102,5 +102,13 @@ public class Book {
 
     public void setVersion(int version) {
         this.version = version;
+    }
+
+    public Set<Transaction> getTransactions() {
+        return transactions;
+    }
+
+    public void setTransactions(Set<Transaction> transactions) {
+        this.transactions = transactions;
     }
 }

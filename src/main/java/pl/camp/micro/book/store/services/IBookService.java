@@ -18,4 +18,6 @@ public interface IBookService {
     Optional<BookDto> findById(Integer id);
 
     Page<BookDto> getBooks(Pageable pageable);
+
+    List<BookDto> findAllBookWithLowPrice();
 }

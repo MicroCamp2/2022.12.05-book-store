@@ -20,8 +20,8 @@ public class BookController {
     }
 
     @GetMapping()
-    public ResponseEntity<Page<BookDto>> list(Pageable pageable) {
-        return ResponseEntity.ok(iBookService.getBooks(pageable));
+    public ResponseEntity<List<BookDto>> list(Pageable pageable) {
+        return ResponseEntity.ok(iBookService.findAllBookWithLowPrice());
     }
 
     @PostMapping
