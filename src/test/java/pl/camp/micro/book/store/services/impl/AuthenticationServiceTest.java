@@ -10,7 +10,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.web.WebAppConfiguration;
 import pl.camp.micro.book.store.App;
-import pl.camp.micro.book.store.configuration.AppConfiguration;
 import pl.camp.micro.book.store.configuration.TestConfiguration;
 import pl.camp.micro.book.store.database.IBookDB;
 import pl.camp.micro.book.store.database.IUserDB;
@@ -22,9 +21,9 @@ import javax.annotation.Resource;
 import java.util.Optional;
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = { App.class, TestConfiguration.class })
+@ContextConfiguration(classes = {App.class, TestConfiguration.class})
 @WebAppConfiguration
-public class AuthenticationServiceTest {
+class AuthenticationServiceTest {
 
     @Autowired
     IAuthenticationService authenticationService;
@@ -39,7 +38,7 @@ public class AuthenticationServiceTest {
     IBookDB bookDB;
 
     @Test
-    public void correctAuthenticationTest() {
+    void correctAuthenticationTest() {
         Mockito
                 .when(this.userDB.getUserByLogin(Mockito.any()))
                 .thenReturn(Optional.of(new User(1, "admin",
@@ -54,7 +53,7 @@ public class AuthenticationServiceTest {
     }
 
     @Test
-    public void incorrectAuthenticationTest() {
+    void incorrectAuthenticationTest() {
         Mockito
                 .when(this.userDB.getUserByLogin(Mockito.any()))
                 .thenReturn(Optional.empty());
@@ -68,7 +67,7 @@ public class AuthenticationServiceTest {
     }
 
     @Test
-    public void logoutTest() {
+    void logoutTest() {
         this.sessionObject.setLogged(true);
 
         this.authenticationService.logout();

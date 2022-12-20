@@ -2,7 +2,6 @@ package pl.camp.micro.patterns.state;
 
 import pl.camp.micro.patterns.Order;
 import pl.camp.micro.patterns.Position;
-import pl.camp.micro.patterns.stategy.PaymentStrategy;
 
 public class NewStateOrder implements OrderState {
     private final Order order;

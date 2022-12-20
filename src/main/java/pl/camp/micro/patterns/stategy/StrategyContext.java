@@ -13,9 +13,9 @@ public class StrategyContext {
 
     public void chooseAndExecute(Order order) {
         if (strategyMap.containsKey(order.getPayMethod())) {
-             strategyMap.get(order.getPayMethod())
-                     .execute(order);
-             return;
+            strategyMap.get(order.getPayMethod())
+                    .execute(order);
+            return;
         }
         throw new WrongPaymentMethod(order.getPayMethod());
     }

@@ -10,5 +10,6 @@ services:
     ports:
       - 127.0.0.1:3309:3306
 
- #docker run   -p 3306:3306 -e   MYSQL_ALLOW_EMPTY_PASSWORD=yes -e  MYSQL_DATABASE=bookstore mysql:8.0.25
- #docker run   -p 9000:9000 sonarqube:8.9.10-community
+  #docker run   -p 3306:3306 -e   MYSQL_ALLOW_EMPTY_PASSWORD=yes -e  MYSQL_DATABASE=bookstore mysql:8.0.25
+  #docker run   -p 9000:9000 sonarqube:8.9.10-community
+#  mvn clean  verify sonar:sonar -Pcoverage -Dsonar.host.url=http://localhost:9000 -Dsonar.login=admin -Dsonar.password=admin

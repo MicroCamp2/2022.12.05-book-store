@@ -5,14 +5,10 @@ import org.springframework.util.Assert;
 import pl.camp.micro.patterns.state.AcceptedOrderState;
 import pl.camp.micro.patterns.state.NewStateOrder;
 import pl.camp.micro.patterns.state.OrderState;
-import pl.camp.micro.patterns.stategy.BlikPaymentStrategy;
-import pl.camp.micro.patterns.stategy.StrategyContext;
-import pl.camp.micro.patterns.stategy.TransferStrategyPayment;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 @Getter
 public class Order {
@@ -34,8 +30,6 @@ public class Order {
         order.addPosition(new Book(new BigDecimal("25.50")), 2);
 
         order.state.pay();
-//        PAY
-
 
     }
 

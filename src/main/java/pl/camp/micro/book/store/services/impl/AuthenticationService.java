@@ -1,7 +1,6 @@
 package pl.camp.micro.book.store.services.impl;
 
 import org.apache.commons.codec.digest.DigestUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.camp.micro.book.store.database.IUserDB;
 import pl.camp.micro.book.store.model.User;
@@ -14,16 +13,20 @@ import java.util.Optional;
 @Service
 public class AuthenticationService implements IAuthenticationService {
 
-    @Autowired
+    final
     IUserDB userDB;
 
     @Resource
     SessionObject sessionObject;
 
+    public AuthenticationService(IUserDB userDB) {
+        this.userDB = userDB;
+    }
+
     @Override
     public void authenticate(String login, String password) {
         Optional<User> userFromDb = this.userDB.getUserByLogin(login);
-        if(userFromDb.isPresent() &&
+        if (userFromDb.isPresent() &&
                 userFromDb.get().getPassword()
                         .equals(DigestUtils.md5Hex(password))) {
             this.sessionObject.setLogged(true);

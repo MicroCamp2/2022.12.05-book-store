@@ -10,16 +10,6 @@ public class CalculatorTest {
         System.out.println("Konstruktor klaksy testujacej");
     }
 
-    @BeforeEach
-    public void prepare() {
-        System.out.println("przygotowanie !!!");
-    }
-
-    @AfterEach
-    public void clean() {
-        System.out.println("sprzatanie !!!");
-    }
-
     @BeforeAll
     public static void prepareForAll() {
         System.out.println("przygotowanie przed wszystkimi testami !!");
@@ -30,91 +20,101 @@ public class CalculatorTest {
         System.out.println("sprzatanie po wszystkich testach !!");
     }
 
+    @BeforeEach
+    public void prepare() {
+        System.out.println("przygotowanie !!!");
+    }
+
+    @AfterEach
+    public void clean() {
+        System.out.println("sprzatanie !!!");
+    }
+
     @Test
-    public void addTwoPositivesTest() {
+    void addTwoPositivesTest() {
         int a = 6;
         int b = 8;
         int expectedResult = 14;
 
-        int actual = calculator.add(a,b);
+        int actual = calculator.add(a, b);
 
         Assertions.assertEquals(expectedResult, actual);
     }
 
     @Test
-    public void addTwoNegativesTest() {
+    void addTwoNegativesTest() {
         int a = -6;
         int b = -8;
         int expectedResult = -14;
 
-        int actual = calculator.add(a,b);
+        int actual = calculator.add(a, b);
 
         Assertions.assertEquals(expectedResult, actual);
     }
 
     @Test
-    public void addNegativeAndPositiveTest() {
+    void addNegativeAndPositiveTest() {
         int a = -6;
         int b = 8;
         int expectedResult = 2;
 
-        int actual = calculator.add(a,b);
+        int actual = calculator.add(a, b);
 
         Assertions.assertEquals(expectedResult, actual);
     }
 
     @Test
-    public void addZerosTest() {
+    void addZerosTest() {
         int a = 0;
         int b = 0;
         int expectedResult = 0;
 
-        int actual = calculator.add(a,b);
+        int actual = calculator.add(a, b);
 
         Assertions.assertEquals(expectedResult, actual);
     }
 
     @Test
-    public void addTwoZerosNegativeCaseTest() {
+    void addTwoZerosNegativeCaseTest() {
         int a = 0;
         int b = 0;
         int notExpectedResult = 3;
 
-        int actual = calculator.add(a,b);
+        int actual = calculator.add(a, b);
 
         Assertions.assertNotEquals(notExpectedResult, actual);
     }
 
     @Test
-    public void divideTwoPositivesTest() {
+    void divideTwoPositivesTest() {
         int a = 6;
         int b = 3;
         int expectedResult = 2;
 
-        double actual = calculator.divide(a,b);
+        double actual = calculator.divide(a, b);
 
         Assertions.assertEquals(expectedResult, actual);
     }
 
     @Test
-    public void divideTwoPositivesWithDecimalResultTest() {
+    void divideTwoPositivesWithDecimalResultTest() {
         int a = 7;
         int b = 2;
         double expectedResult = 3.5;
 
-        double actual = calculator.divide(a,b);
+        double actual = calculator.divide(a, b);
 
         Assertions.assertEquals(expectedResult, actual, 0.001);
     }
 
     @Test
-    public void divideByZeroTest() {
+    void divideByZeroTest() {
         int a = 7;
         int b = 0;
 
         Assertions.assertThrows(
                 IllegalArgumentException.class,
-                () -> calculator.divide(a,b)
+                () -> calculator.divide(a, b)
         );
     }
 }

@@ -7,8 +7,6 @@ import org.springframework.web.bind.annotation.*;
 import pl.camp.micro.book.store.controllers.rest.dto.TransactionDto;
 import pl.camp.micro.book.store.services.impl.TransactionService;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/api/transactions")
 public class TransactionController {
@@ -42,8 +40,9 @@ public class TransactionController {
 
     @GetMapping("/{id}")
     public ResponseEntity<TransactionDto> getById(@PathVariable Long id) {
-        TransactionDto TransactionDto = transactionService.findById(id).orElseThrow(ResourceNotFond::new);
-        return ResponseEntity.ok(TransactionDto);
+        TransactionDto transactionDto = transactionService.findById(id)
+                .orElseThrow(ResourceNotFond::new);
+        return ResponseEntity.ok(transactionDto);
     }
 
 }

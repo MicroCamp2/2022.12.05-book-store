@@ -7,5 +7,6 @@ import pl.camp.micro.book.store.model.Book;
 @Mapper(componentModel = "spring")
 public interface BookMapper {
     BookDto toDto(Book source);
+
     Book toEntity(BookDto source);
 }

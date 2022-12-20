@@ -1,6 +1,5 @@
 package pl.camp.micro.book.store.configuration;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import pl.camp.micro.book.store.database.repositories.IBookRepository;
@@ -12,8 +11,11 @@ import javax.annotation.PostConstruct;
 @Profile("dev")
 public class InitDatabaseConfiguration {
 
-    @Autowired
-    IBookRepository iBookRepository;
+    final IBookRepository iBookRepository;
+
+    public InitDatabaseConfiguration(IBookRepository iBookRepository) {
+        this.iBookRepository = iBookRepository;
+    }
 
     @PostConstruct
     public void init() {

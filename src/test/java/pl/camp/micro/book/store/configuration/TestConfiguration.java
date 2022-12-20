@@ -1,14 +1,8 @@
 package pl.camp.micro.book.store.configuration;
 
-import org.mockito.Mockito;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import pl.camp.micro.book.store.database.IBookDB;
-import pl.camp.micro.book.store.database.IUserDB;
-import pl.camp.micro.book.store.database.impl.BookDB;
-import pl.camp.micro.book.store.database.impl.UserDBStub;
 
 @Configuration
 @ComponentScan({

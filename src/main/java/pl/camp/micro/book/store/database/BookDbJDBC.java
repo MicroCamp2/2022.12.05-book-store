@@ -1,17 +1,17 @@
 package pl.camp.micro.book.store.database;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Primary;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.stereotype.Repository;
 import pl.camp.micro.book.store.model.Book;
 
 import javax.annotation.PostConstruct;
 import java.util.List;
 
 public class BookDbJDBC implements IBookDB {
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
+    private final JdbcTemplate jdbcTemplate;
+
+    public BookDbJDBC(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
 
     @PostConstruct
     public void init() {

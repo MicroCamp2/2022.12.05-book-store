@@ -1,11 +1,8 @@
 package pl.camp.micro.book.store.controllers.rest;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.camp.micro.book.store.controllers.rest.dto.BookDto;
-import pl.camp.micro.book.store.model.Book;
 import pl.camp.micro.book.store.services.IBookService;
 
 import javax.validation.Valid;
@@ -21,13 +18,13 @@ public class BookController {
     }
 
     @GetMapping()
-    public ResponseEntity<List<BookDto>> list(Pageable pageable) {
+    public ResponseEntity<List<BookDto>> list() {
         return ResponseEntity.ok(iBookService.findAllBookWithLowPrice());
     }
 
     @PostMapping
     public ResponseEntity<BookDto> create(@Valid @RequestBody BookDto book) {
-        return ResponseEntity.ok(iBookService.create(book));
+        return ResponseEntity.ok(iBookService.createOrUpdate(book));
     }
 
     @PostMapping("/{id}")
@@ -35,7 +32,7 @@ public class BookController {
 
         book.setId(id);
 
-        return ResponseEntity.ok(iBookService.update(book));
+        return ResponseEntity.ok(iBookService.createOrUpdate(book));
     }
 
     @GetMapping("/{id}")

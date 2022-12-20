@@ -1,5 +1,6 @@
 package pl.camp.micro.book.store.services.impl;
 
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -8,6 +9,7 @@ import pl.camp.micro.book.store.database.repositories.TransactionRepository;
 import pl.camp.micro.book.store.model.Transaction;
 import pl.camp.micro.book.store.services.mappers.TransactionMapper;
 
+import javax.transaction.Transactional;
 import java.util.Optional;
 
 @Service
@@ -15,9 +17,12 @@ public class TransactionService {
     public final TransactionMapper mapper;
     private final TransactionRepository transactionRepository;
 
-    public TransactionService(TransactionMapper mapper, TransactionRepository transactionRepository) {
+    private final ApplicationEventPublisher applicationEventPublisher;
+
+    public TransactionService(TransactionMapper mapper, TransactionRepository transactionRepository, ApplicationEventPublisher applicationEventPublisher) {
         this.mapper = mapper;
         this.transactionRepository = transactionRepository;
+        this.applicationEventPublisher = applicationEventPublisher;
     }
 
     public Page<TransactionDto> findTransaction(Pageable pageable) {
@@ -34,8 +39,10 @@ public class TransactionService {
         return transactionRepository.findByComment(comment, pageable).map(mapper::toDto);
     }
 
-    public TransactionDto update(TransactionDto book) {
-        Transaction saved = transactionRepository.save(mapper.toEntity(book));
+    @Transactional
+    public TransactionDto update(TransactionDto transactionDto) {
+        Transaction saved = transactionRepository.save(mapper.toEntity(transactionDto));
+        applicationEventPublisher.publishEvent(new TransactionUpdatedEvent(this, transactionDto));
         return mapper.toDto(saved);
     }
 

@@ -1,5 +1,6 @@
 package pl.camp.micro.book.store.services.impl;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,26 +13,31 @@ import pl.camp.micro.book.store.database.repositories.IBookRepository;
 import pl.camp.micro.book.store.model.Book;
 import pl.camp.micro.book.store.services.IBookService;
 import pl.camp.micro.book.store.services.mappers.BookMapper;
-import pl.camp.micro.book.store.services.mappers.OldBookMapper;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class BookServiceTest {
+class BookServiceTest {
 
     IBookService bookService;
 
     @Mock
     IBookRepository bookDB;
+    private AutoCloseable autoCloseable;
 
     @BeforeEach
     void setUp() {
-        MockitoAnnotations.openMocks(this);
-        bookService = new BookService(Mappers.getMapper(BookMapper.class), bookDB );
+        autoCloseable = MockitoAnnotations.openMocks(this);
+        bookService = new BookService(Mappers.getMapper(BookMapper.class), bookDB);
+    }
+
+    @AfterEach
+    void tearDown() throws Exception {
+        autoCloseable.close();
     }
 
     @Test
-    public void getAllBooksTest() {
+    void getAllBooksTest() {
         Mockito
                 .when(bookDB.findAll())
                 .thenReturn(generateTestBooks());
@@ -40,8 +46,8 @@ public class BookServiceTest {
         List<BookDto> result = this.bookService.getBooks();
 
         Assertions.assertEquals(expectedListSize, result.size());
-        for(int i = 0; i < result.size(); i++) {
-            Assertions.assertEquals(i+1, result.get(i).getId());
+        for (int i = 0; i < result.size(); i++) {
+            Assertions.assertEquals(i + 1, result.get(i).getId());
         }
 
         Mockito.verify(this.bookDB, Mockito.times(1)).findAll();

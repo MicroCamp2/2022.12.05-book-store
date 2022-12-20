@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <title>Micro Camp Book Store</title>
-  <link rel="stylesheet" href="/commons.css">
+    <meta charset="UTF-8">
+    <title>Micro Camp Book Store</title>
+    <link href="/commons.css" rel="stylesheet">
 </head>
 <body>
 <div th:replace="fragments.html :: menu"></div>
 <div id="content">
-  <form method="post">
-    <input type="text" placeholder="Login" th:field="*{user.login}">
-    <input type="password" placeholder="Password" th:field="*{user.password}">
-    <input type="submit" value="OK">
-  </form>
+    <form method="post">
+        <input placeholder="Login" th:field="*{user.login}" type="text">
+        <input placeholder="Password" th:field="*{user.password}" type="password">
+        <input type="submit" value="OK">
+    </form>
 </div>
 </body>
 </html>

@@ -8,7 +8,7 @@ import java.util.Optional;
 public class UserDBStub implements IUserDB {
     @Override
     public Optional<User> getUserByLogin(String login) {
-        if(login.equals("admin")) {
+        if (login.equals("admin")) {
             return Optional.of(new User(1, "admin",
                     "21232f297a57a5a743894a0e4a801fc3"));
         } else if (login.equals("janusz")) {

@@ -1,28 +1,28 @@
 package pl.camp.micro.book.store.controllers.rest;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.camp.micro.book.store.model.User;
 
 @RestController
+@Slf4j
 public class SimpleRestController {
 
-    @RequestMapping(path = "/user", method = RequestMethod.GET)
+    @GetMapping(path = "/user")
     public User getUser() {
         return new User(1, "admin", "admin");
     }
 
-    @RequestMapping(path = "/user", method = RequestMethod.POST)
+    @PostMapping(path = "/user")
     public User user(@RequestBody User user) {
-        System.out.println(user.getId());
-        System.out.println(user.getLogin());
-        System.out.println(user.getPassword());
+        log.info("/user request {} {} {}", user.getId(), user.getLogin(), user.getPassword());
 
         return new User(1234, "asdfasdf", "askjhdg324");
     }
 
-    @RequestMapping(path = "/user/{id}/{login}", method = RequestMethod.PUT)
+    @PutMapping(path = "/user/{id}/{login}")
     public User user(@RequestBody(required = false) User user,
                      @PathVariable int id,
                      @PathVariable String login,
@@ -30,20 +30,15 @@ public class SimpleRestController {
                      @RequestParam(required = false) String param2,
                      @RequestHeader(required = false) String header1,
                      @RequestHeader(required = false) String header2) {
-        System.out.println(user.getId());
-        System.out.println(user.getLogin());
-        System.out.println(user.getPassword());
-        System.out.println(id);
-        System.out.println(login);
-        System.out.println(param1);
-        System.out.println(param2);
-        System.out.println(header1);
-        System.out.println(header2);
+
+        log.info("/user/{id}/{login} request {} {} {}", user.getId(), user.getLogin(), user.getPassword());
+        log.info("/user/{id}/{login} request {} {} {} {} {} {}", id, login, param1, param2, header1, header2);
+
 
         return new User(345, "asdfasdrfa324234", "23423sdfw34safed");
     }
 
-    @RequestMapping(path = "/user2", method = RequestMethod.GET)
+    @GetMapping(path = "/user2")
     public ResponseEntity<User> user2() {
         return ResponseEntity
                 .status(HttpStatus.NOT_ACCEPTABLE)

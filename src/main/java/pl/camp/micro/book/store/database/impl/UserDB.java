@@ -1,6 +1,5 @@
 package pl.camp.micro.book.store.database.impl;
 
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 import pl.camp.micro.book.store.database.IUserDB;
 import pl.camp.micro.book.store.model.User;

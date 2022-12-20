@@ -3,16 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <title>Micro Camp Book Store</title>
-    <link rel="stylesheet" href="/commons.css">
+    <link href="/commons.css" rel="stylesheet">
 </head>
 <body>
 <div th:replace="fragments.html :: menu"></div>
 <div id="content">
-    <div th:each="book : ${books}" class="book">
-        <div th:text="${book.title}" class="title"></div>
-        <div th:text="${book.author}" class="author"></div>
-        <div th:text="'Cena: ' + ${book.price} + ' zł'" class="price"></div>
-        <div th:text="'Zostało ' + ${book.quantity} + ' sztuk'" class="quantity"></div>
+    <div class="book" th:each="book : ${books}">
+        <div class="title" th:text="${book.title}"></div>
+        <div class="author" th:text="${book.author}"></div>
+        <div class="price" th:text="'Cena: ' + ${book.price} + ' zł'"></div>
+        <div class="quantity" th:text="'Zostało ' + ${book.quantity} + ' sztuk'"></div>
     </div>
 </div>
 </body>

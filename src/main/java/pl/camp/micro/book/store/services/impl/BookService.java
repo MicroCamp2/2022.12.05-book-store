@@ -8,15 +8,12 @@ import pl.camp.micro.book.store.controllers.rest.dto.BookDto;
 import pl.camp.micro.book.store.database.repositories.IBookRepository;
 import pl.camp.micro.book.store.model.Book;
 import pl.camp.micro.book.store.model.Book_;
-import pl.camp.micro.book.store.model.Transaction;
 import pl.camp.micro.book.store.services.IBookService;
 import pl.camp.micro.book.store.services.mappers.BookMapper;
 
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Service
 public class BookService implements IBookService {
@@ -46,20 +43,15 @@ public class BookService implements IBookService {
     public List<BookDto> getBooks() {
         bookRepository.findAvailableBooks();
         return this.bookRepository.findAll().stream()
-                .map(bookMapper::toDto).collect(Collectors.toList());
+                .map(bookMapper::toDto).toList();
     }
 
     @Override
-    public BookDto create(BookDto book) {
+    public BookDto createOrUpdate(BookDto book) {
         Book savedBook = bookRepository.save(bookMapper.toEntity(book));
         return bookMapper.toDto(savedBook);
     }
 
-    @Override
-    public BookDto update(BookDto book) {
-        Book savedBook = bookRepository.save(bookMapper.toEntity(book));
-        return bookMapper.toDto(savedBook);
-    }
 
     @Override
     public Optional<BookDto> findById(Integer id) {
@@ -71,17 +63,14 @@ public class BookService implements IBookService {
     @Transactional
     public Page<BookDto> getBooks(Pageable pageable) {
         return bookRepository.findAllWitTransaction(pageable)
-                .map(b -> {
-                    Set<Transaction> transactions = b.getTransactions();
-                    return bookMapper.toDto(b);
-                });
+                .map(bookMapper::toDto);
     }
 
     @Override
     public List<BookDto> findAllBookWithLowPrice() {
 
         return bookRepository.findAll(premiumLevel())
-                .stream().map(bookMapper::toDto).collect(Collectors.toList());
+                .stream().map(bookMapper::toDto).toList();
     }
 
 
