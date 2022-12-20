@@ -1,54 +1,66 @@
 package pl.camp.micro.patterns;
 
+import lombok.Getter;
+import org.springframework.util.Assert;
+import pl.camp.micro.patterns.state.AcceptedOrderState;
+import pl.camp.micro.patterns.state.NewStateOrder;
+import pl.camp.micro.patterns.state.OrderState;
+import pl.camp.micro.patterns.stategy.BlikPaymentStrategy;
+import pl.camp.micro.patterns.stategy.StrategyContext;
+import pl.camp.micro.patterns.stategy.TransferStrategyPayment;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
+@Getter
 public class Order {
-    private Status status;
+    private final List<Position> positions = new ArrayList<>();
+    OrderState state = new NewStateOrder(this);
+    private Status status; //lokalna
     private String payMethod;
 
+    //SOLID
     public static void main(String[] args) {
-        Order order = new Order();
-        List<Position> positions = new ArrayList<>();
+        Order order = new Order()
+                .addPosition(new Book(new BigDecimal("22.50")), 1)
+                .addPosition(new Book(new BigDecimal("29.50")), 2);
+        order.updateQuantity(2, 3);
 
-        Position position1 = new Position();
-        position1.setBook(new Book());
-        position1.setQuantity(1);
-
-        positions.add(position1);
-
-        Position position2 = new Position();
-        position2.setBook(new Book());
-        position2.setQuantity(2);
-
-        positions.add(position2);
-
-        position2.setQuantity(3);
         order.payMethod = "BLIK";
         order.setStatus(Status.ACCEPTED);
+        order.changeState(new AcceptedOrderState(order));
+        order.addPosition(new Book(new BigDecimal("25.50")), 2);
 
-
-        Position position3 = new Position();
-        position3.setBook(new Book());
-        position3.setQuantity(1);
-
-        positions.add(position3);
+        order.state.pay();
 //        PAY
-        if (order.payMethod == "BLIK") {
-
-            System.out.println("Blik method pay" + positions.stream()
-                    .map(p -> p.getQuantity() * p.getQuantity())
-                    .map(BigDecimal::valueOf)
-                    .reduce(BigDecimal.ZERO, (a, b) -> b.add(a)));
-        } else {
-            System.out.println("Transfer method pay" + positions.stream()
-                    .map(p -> p.getQuantity() * p.getQuantity())
-                    .map(BigDecimal::valueOf)
-                    .reduce(BigDecimal.ZERO, (a, b) -> b.add(a)));
-        }
 
 
+    }
+
+    void changeState(OrderState orderState) {
+        state = orderState;
+    }
+
+    public void updateQuantity(int position, int quantity) {
+        Assert.isTrue(positions.size() >= position && position >= 1, "Nie znaleziono obiektu");
+        positions.get(position - 1).setQuantity(quantity);
+    }
+
+    public Order addPosition(Book book, int quantity) {
+        Position position = Position.builder()
+                .book(book)
+                .quantity(quantity)
+                .build();
+        state.addPosition(position);
+        return this;
+    }
+
+    public BigDecimal calculatePrice() {
+        return positions.stream()
+                .map(p -> p.getBook().getPrice().multiply(new BigDecimal(p.getQuantity())))
+                .reduce(BigDecimal.ZERO, (a, b) -> b.add(a));
     }
 
     public void setStatus(Status status) {
